@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>explainshell.com - chmod +x file.ext</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+    
+        <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen" id="bootstrapCSS">
+    
+        <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+        <link href="/static/css/es.css" rel="stylesheet" media="screen">
+        <link href='//fonts.googleapis.com/css?family=Berkshire+Swash' rel='stylesheet' type='text/css'>
+        
+    </head>
+    <body data-theme=default>
+        <div class="container">
+            <div class="small-push"></div>
+            <div class="header">
+                <div class="text-center logo">
+                    <a href="/">
+                        explain<span class="shell">shell</span>.<span class="dotcom">com</span>
+                    </a>
+                </div>
+                <div style="position: relative;">
+                    <ul class="inline menu">
+                      <li><a href="/about">about</a></li>
+                      <li><a href="https://github.com/idank/explainshell"><i class="icon-github"></i></a></li>
+                      <li><form action='/explain' method='get'><input id="top-search" name='cmd' type="text" autocapitalize="off" autocorrect="off" placeholder="explain..."></input></form></li>
+                      <li id="themeContainer" class="dropdown">
+                        <span data-toggle="dropdown">theme</span>
+                        <b class="caret" data-toggle="dropdown"></b>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                            <li><a tabindex="-1" href="#" data-theme-name="default">Light</a></li>
+                            <li><a tabindex="-1" href="#" data-theme-name="dark">Dark</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                </div>
+                <div class="small-push"></div>
+                <div class="text-center">
+                    
+                </div>
+            </div>
+            
+            <div id="navigate" style="position: relative;" class="small-push"></div>
+            <!--<span style="background-color:white;position: fixed; bottom:0; right:0;" id="coords"></span>-->
+            <div class="push"></div>
+            <div id="bump-fixer">
+                <div id="command-wrapper">
+                    <svg id="canvas">
+                    </svg>
+                    <div id="command">
+                    <span class="dropdown">
+                    <span style="word-spacing: 0px;">
+                    <b class="caret" data-toggle="dropdown"></b>
+                    <span class="command0 simplecommandstart" helpref="help-0"><a href="/explain/1/chmod">chmod(1)</a></span>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                      <li>other manpages</li>
+                      <li class="divider"></li>
+                      <li><a tabindex="-1" href="/explain?cmd=chmod.1posix%20%2Bx%20file.ext">chmod(1posix)</a></li>
+                    </ul>
+                    </span>
+                </span> <span class="command0" helpref="help-1">+x file.ext</span>
+                    </div>
+                    <div style="height: 5px;"></div>
+                    <div style="height: 100px;"></div>
+                </div>
+            </div>
+            <div>
+                <table id="help" width="100%">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <pre class="help-box" id="help-0">change file mode bits</pre>
+                            </td>
+                        </tr><tr>
+                            <td>
+                                <pre class="help-box" id="help-1">The  format  of  a  symbolic  mode  is  [<b>ugoa</b>...][[<b>+-=</b>][<u>perms</u>...]...], where <u>perms</u> is either zero or more
+letters from the set <b>rwxXst</b>, or a single letter from the set <b>ugo</b>.  Multiple symbolic modes can be  given,
+separated by commas.
+
+Change the mode of each FILE to MODE.</pre>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="push"></div><div class="text-center"><small>
+
+source manpages: 
+<a href="http://manpages.ubuntu.com/manpages/precise/en/man1/chmod.html">chmod</a>
+
+</small></div>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script src="/static/js/es.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.1.6/d3.min.js"></script>
+        <script type="text/javascript">
+            var $window = $(window),
+                helppres = $('#help pre');
+
+            adjustcommandfontsize();
+            currentgroup = initialize();
+            navigation();
+
+            $(document).ready(function() {
+                // set the query in the top search box from the url. assumes we
+                // take a single parameter.
+                if (window.location.search.split("&").length == 1) {
+                    var cmdquery = window.location.search.substr("?cmd=".length);
+                    $("#top-search").val(decodeURIComponent(cmdquery.replace(/\+/g, ' ')));
+                }
+
+                // when #command-wrapper position is changed to fixed, it'll be removed
+                // from the normal flow, and everything below it will up. we use this div
+                // to prevent that.
+                $('#bump-fixer').height($("#command-wrapper").height());
+
+                $('#command-wrapper').affix({
+                    offset: { top: $('#command-wrapper').offset().top-10 }
+                });
+
+                drawgrouplines(currentgroup.commandselector);
+
+                var throttled = _.throttle(function() {
+                    draw()
+                }, 10);
+
+                $window.scroll(throttled);
+                $window.resize(throttled);
+            });
+        </script>
+    </body>
+</html>

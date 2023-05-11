@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>explainshell.com - cut -d &#39; &#39; -f 1 /var/log/apache2/access_logs | uniq -c | sort -n</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+    
+        <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen" id="bootstrapCSS">
+    
+        <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+        <link href="/static/css/es.css" rel="stylesheet" media="screen">
+        <link href='//fonts.googleapis.com/css?family=Berkshire+Swash' rel='stylesheet' type='text/css'>
+        
+    </head>
+    <body data-theme=default>
+        <div class="container">
+            <div class="small-push"></div>
+            <div class="header">
+                <div class="text-center logo">
+                    <a href="/">
+                        explain<span class="shell">shell</span>.<span class="dotcom">com</span>
+                    </a>
+                </div>
+                <div style="position: relative;">
+                    <ul class="inline menu">
+                      <li><a href="/about">about</a></li>
+                      <li><a href="https://github.com/idank/explainshell"><i class="icon-github"></i></a></li>
+                      <li><form action='/explain' method='get'><input id="top-search" name='cmd' type="text" autocapitalize="off" autocorrect="off" placeholder="explain..."></input></form></li>
+                      <li id="themeContainer" class="dropdown">
+                        <span data-toggle="dropdown">theme</span>
+                        <b class="caret" data-toggle="dropdown"></b>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                            <li><a tabindex="-1" href="#" data-theme-name="default">Light</a></li>
+                            <li><a tabindex="-1" href="#" data-theme-name="dark">Dark</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                </div>
+                <div class="small-push"></div>
+                <div class="text-center">
+                    
+                </div>
+            </div>
+            
+            <div id="navigate" style="position: relative;" class="small-push"></div>
+            <!--<span style="background-color:white;position: fixed; bottom:0; right:0;" id="coords"></span>-->
+            <div class="push"></div>
+            <div id="bump-fixer">
+                <div id="command-wrapper">
+                    <svg id="canvas">
+                    </svg>
+                    <div id="command">
+                    <span class="dropdown">
+                    <span style="word-spacing: 0px;">
+                    <b class="caret" data-toggle="dropdown"></b>
+                    <span class="command0 simplecommandstart" helpref="help-1"><a href="/explain/1/cut">cut(1)</a></span>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                      <li>other manpages</li>
+                      <li class="divider"></li>
+                      <li><a tabindex="-1" href="/explain?cmd=cut.1posix%20-d%20%27%20%27%20-f%201%20/var/log/apache2/access_logs%20%7C%20uniq%20-c%20%7C%20sort%20-n">cut(1posix)</a></li>
+                    </ul>
+                    </span>
+                </span> <span class="command0" helpref="help-2">-d &#39; &#39;</span> <span class="command0" helpref="help-3">-f 1</span> <span class="command0" helpref="help-4">/var/log/apache2/access_logs</span> <span class="shell" helpref="help-0">|</span> <span class="dropdown">
+                    <span style="word-spacing: 0px;">
+                    <b class="caret" data-toggle="dropdown"></b>
+                    <span class="command1 simplecommandstart" helpref="help-5"><a href="/explain/1/uniq">uniq(1)</a></span>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                      <li>other manpages</li>
+                      <li class="divider"></li>
+                      <li><a tabindex="-1" href="/explain?cmd=cut%20-d%20%27%20%27%20-f%201%20/var/log/apache2/access_logs%20%7C%20plan9-uniq.1%20-c%20%7C%20sort%20-n">plan9-uniq(1)</a></li><li><a tabindex="-1" href="/explain?cmd=cut%20-d%20%27%20%27%20-f%201%20/var/log/apache2/access_logs%20%7C%20uniq.1posix%20-c%20%7C%20sort%20-n">uniq(1posix)</a></li>
+                    </ul>
+                    </span>
+                </span> <span class="command1" helpref="help-6">-c</span> <span class="shell" helpref="help-0">|</span> <span class="dropdown">
+                    <span style="word-spacing: 0px;">
+                    <b class="caret" data-toggle="dropdown"></b>
+                    <span class="command2 simplecommandstart" helpref="help-7"><a href="/explain/1/sort">sort(1)</a></span>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                      <li>other manpages</li>
+                      <li class="divider"></li>
+                      <li><a tabindex="-1" href="/explain?cmd=cut%20-d%20%27%20%27%20-f%201%20/var/log/apache2/access_logs%20%7C%20uniq%20-c%20%7C%20plan9-sort.1%20-n">plan9-sort(1)</a></li><li><a tabindex="-1" href="/explain?cmd=cut%20-d%20%27%20%27%20-f%201%20/var/log/apache2/access_logs%20%7C%20uniq%20-c%20%7C%20sort.1posix%20-n">sort(1posix)</a></li>
+                    </ul>
+                    </span>
+                </span> <span class="command2" helpref="help-8">-n</span>
+                    </div>
+                    <div style="height: 5px;"></div>
+                    <div style="height: 100px;"></div>
+                </div>
+            </div>
+            <div>
+                <table id="help" width="100%">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <pre class="help-box" id="help-1">remove sections from each line of files</pre>
+                            </td>
+                        </tr><tr>
+                            <td>
+                                <pre class="help-box" id="help-2"><b>-d</b>, <b>--delimiter</b>=<u>DELIM</u>
+       use DELIM instead of TAB for field delimiter</pre>
+                            </td>
+                        </tr><tr>
+                            <td>
+                                <pre class="help-box" id="help-3"><b>-f</b>, <b>--fields</b>=<u>LIST</u>
+       select only these fields;  also print any line that contains no delimiter character, unless the <b>-s</b>
+       option is specified</pre>
+                            </td>
+                        </tr><tr>
+                            <td>
+                                <pre class="help-box" id="help-4">With no FILE, or when FILE is -, read standard input.</pre>
+                            </td>
+                        </tr><tr>
+                            <td>
+                                <pre class="help-box" id="help-0"><b>Pipelines</b>
+    A  <u>pipeline</u> is a sequence of one or more commands separated by one of the control operators <b>|</b> or <b>|&amp;</b>.  The
+    format for a pipeline is:
+
+           [<b>time</b> [<b>-p</b>]] [ ! ] <u>command</u> [ [<b>|</b>⎪<b>|&amp;</b>] <u>command2</u> ... ]
+
+    The standard output of <u>command</u> is connected  via  a  pipe  to  the  standard  input  of  <u>command2</u>.   This
+    connection  is performed before any redirections specified by the command (see <b>REDIRECTION</b> below).  If <b>|&amp;</b>
+    is used, the standard error of <u>command</u> is connected to <u>command2</u>'s standard input through the pipe; it  is
+    shorthand  for  <b>2&gt;&amp;1</b>  <b>|</b>.   This  implicit  redirection  of  the  standard  error  is  performed after any
+    redirections specified by the command.
+
+    The return status of a pipeline is the exit status of the last command, unless  the  <b>pipefail</b>  option  is
+    enabled.   If  <b>pipefail</b>  is  enabled,  the  pipeline's return status is the value of the last (rightmost)
+    command to exit with a non-zero status, or zero if all commands exit successfully.  If the reserved  word
+    <b>!</b>   precedes  a  pipeline, the exit status of that pipeline is the logical negation of the exit status as
+    described above.  The shell waits for all commands in the pipeline to terminate before returning a value.
+
+    If the <b>time</b> reserved word precedes a pipeline, the elapsed as well as user and system  time  consumed  by
+    its execution are reported when the pipeline terminates.  The <b>-p</b> option changes the output format to that
+    specified by POSIX.  When the shell is in <u>posix</u> <u>mode</u>, it does not recognize <b>time</b> as a  reserved  word  if
+    the  next  token begins with a `-'.  The <b>TIMEFORMAT</b> variable may be set to a format string that specifies
+    how the timing information should be displayed; see the description of <b>TIMEFORMAT</b> under  <b>Shell</b>  <b>Variables</b>
+    below.
+
+    When the shell is in <u>posix</u> <u>mode</u>, <b>time</b> may be followed by a newline.  In this case, the shell displays the
+    total user and system time consumed by the shell and its children.  The <b>TIMEFORMAT</b> variable may  be  used
+    to specify the format of the time information.
+
+    Each command in a pipeline is executed as a separate process (i.e., in a subshell).</pre>
+                            </td>
+                        </tr><tr>
+                            <td>
+                                <pre class="help-box" id="help-5">report or omit repeated lines</pre>
+                            </td>
+                        </tr><tr>
+                            <td>
+                                <pre class="help-box" id="help-6"><b>-c</b>, <b>--count</b>
+       prefix lines by the number of occurrences</pre>
+                            </td>
+                        </tr><tr>
+                            <td>
+                                <pre class="help-box" id="help-7">sort lines of text files</pre>
+                            </td>
+                        </tr><tr>
+                            <td>
+                                <pre class="help-box" id="help-8"><b>-n</b>, <b>--numeric-sort</b>
+       compare according to string numerical value</pre>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="push"></div><div class="text-center"><small>
+
+source manpages: 
+<a href="http://manpages.ubuntu.com/manpages/precise/en/man1/cut.html">cut</a>,&nbsp;
+
+
+<a href="http://manpages.ubuntu.com/manpages/precise/en/man1/uniq.html">uniq</a>,&nbsp;
+
+
+<a href="http://manpages.ubuntu.com/manpages/precise/en/man1/sort.html">sort</a>
+
+</small></div>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script src="/static/js/es.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.1.6/d3.min.js"></script>
+        <script type="text/javascript">
+            var $window = $(window),
+                helppres = $('#help pre');
+
+            adjustcommandfontsize();
+            currentgroup = initialize();
+            navigation();
+
+            $(document).ready(function() {
+                // set the query in the top search box from the url. assumes we
+                // take a single parameter.
+                if (window.location.search.split("&").length == 1) {
+                    var cmdquery = window.location.search.substr("?cmd=".length);
+                    $("#top-search").val(decodeURIComponent(cmdquery.replace(/\+/g, ' ')));
+                }
+
+                // when #command-wrapper position is changed to fixed, it'll be removed
+                // from the normal flow, and everything below it will up. we use this div
+                // to prevent that.
+                $('#bump-fixer').height($("#command-wrapper").height());
+
+                $('#command-wrapper').affix({
+                    offset: { top: $('#command-wrapper').offset().top-10 }
+                });
+
+                drawgrouplines(currentgroup.commandselector);
+
+                var throttled = _.throttle(function() {
+                    draw()
+                }, 10);
+
+                $window.scroll(throttled);
+                $window.resize(throttled);
+            });
+        </script>
+    </body>
+</html>
