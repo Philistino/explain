@@ -7,8 +7,14 @@ import (
 	"time"
 )
 
+// Not really best practice but simplifying by creating one client available for reuse
+var client = newHTTPClient()
+
 func newHTTPClient() *http.Client {
 	client := &http.Client{
+		Transport: &http.Transport{
+			MaxIdleConnsPerHost: 10,
+		},
 		Timeout: 5 * time.Second,
 	}
 	return client
@@ -21,19 +27,12 @@ func addQueryParams(req *http.Request, cmd string) *http.Request {
 	return req
 }
 
-func addUserAgent(req *http.Request, userAgent string) *http.Request {
-	req.Header.Add("User-Agent", userAgent)
-	req.Header.Add("Accept", "application/json")
-	return req
-}
-
 func buildRequest(ctx context.Context, urlBase string, cmd string) (*http.Request, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, urlBase, nil)
 	if err != nil {
 		return nil, err
 	}
 	req = addQueryParams(req, cmd)
-	// req = addUserAgent(req, userAgent)
 	return req, nil
 }
 
@@ -53,11 +52,11 @@ func makeRequest(client *http.Client, req *http.Request) ([]byte, error) {
 	return body, nil
 }
 
-func GetPage(ctx context.Context, urlBase string, cmd string) ([]byte, error) {
-	client := newHTTPClient()
+func GetPage(ctx context.Context, urlBase string, cmd string) ([]byte, string, error) {
 	req, err := buildRequest(ctx, urlBase, cmd)
 	if err != nil {
-		return nil, err
+		return nil, "", err
 	}
-	return makeRequest(client, req)
+	b, err := makeRequest(client, req)
+	return b, req.URL.String(), err
 }

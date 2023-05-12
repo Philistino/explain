@@ -8,6 +8,7 @@ import (
 func TestAnsiCounter(t *testing.T) {
 	t.Parallel()
 	counter := ansiRepeater()
+	// 18 is an arbitrary number greater than 14
 	colors := make([]int, 18)
 	for i := 1; i < 18; i++ {
 		ref := fmt.Sprintf("helpRef-%d", i)
@@ -29,5 +30,9 @@ func TestAnsiCounter(t *testing.T) {
 	color = counter("helpRef-15")
 	if color != 1 {
 		t.Error("Color should be 1")
+	}
+	color = counter("")
+	if color != 15 {
+		t.Error("Color should be 15")
 	}
 }

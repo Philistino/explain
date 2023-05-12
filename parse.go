@@ -24,7 +24,7 @@ type Explanation struct {
 	Help    string
 }
 
-func Explanations(r io.Reader) []Explanation {
+func explanations(r io.Reader) []Explanation {
 	tkn := html.NewTokenizer(r)
 	expls := make([]Explanation, 0)
 	var captureText bool
@@ -76,17 +76,20 @@ func Explanations(r io.Reader) []Explanation {
 	}
 }
 
-func Commands(r io.Reader) []CmdPart {
+func commands(r io.Reader) ([]CmdPart, []string) {
 	n := findCommandDiv(r)
 	if n == nil {
-		return nil
+		return nil, nil
 	}
-	return parseCommandDiv(n)
+	cmdParts := parseCommandDiv(n)
+	nestedCmds := parseExpansionCmds(n)
+	return cmdParts, nestedCmds
 }
 
-func ParseReponse(r []byte) ([]CmdPart, []Explanation) {
-	// expls := Explanations(r)
-	return Commands(bytes.NewReader(r)), Explanations(bytes.NewReader(r))
+func ParseReponse(r []byte) ([]CmdPart, []Explanation, []string) {
+	cmds, nestedCmds := commands(bytes.NewReader(r))
+	exps := explanations(bytes.NewReader(r))
+	return cmds, exps, nestedCmds
 }
 
 func findCommandDiv(r io.Reader) *html.Node {
@@ -116,19 +119,14 @@ func findCommandDiv(r io.Reader) *html.Node {
 	return returnNode
 }
 
-// getHelpRef returns the helpref key if on this
-// node. If not present, recursively walks up the tree
-// searching for the helpref attr
-func getHelpRef(node *html.Node, recursionLimit int) string {
+// getHelpRef returns the helpref key if on this node.
+func getHelpRef(node *html.Node) string {
 	for _, a := range node.Attr {
 		if a.Key == "helpref" {
 			return a.Val
 		}
 	}
-	if recursionLimit <= 0 {
-		return ""
-	}
-	return getHelpRef(node.Parent, recursionLimit-1)
+	return ""
 }
 
 func parseTextInNodeRecursively(n *html.Node) []string {
@@ -160,7 +158,7 @@ func parseCommandDiv(node *html.Node) []CmdPart {
 				if a.Key == "class" && commandOrShellRgx.MatchString(a.Val) {
 					cmds = append(cmds, CmdPart{
 						CmdPart: strings.Join(parseTextInNodeRecursively(n), ""),
-						HelpRef: getHelpRef(n, 0),
+						HelpRef: getHelpRef(n),
 					})
 				}
 			}
@@ -173,81 +171,16 @@ func parseCommandDiv(node *html.Node) []CmdPart {
 	return cmds
 }
 
-func parseExpansion(n *html.Node) []string {
+func parseExpansionCmds(node *html.Node) []string {
 	var f func(*html.Node)
 	cmds := make([]string, 0)
-	cmds = append(cmds, getHelpRef(n, 2))
-	// log.Println(parseTextInNodeRecursively(n))
 	f = func(n *html.Node) {
-		if n.Type == html.ElementNode && n.Data == "span" {
-			for _, a := range n.Attr {
-				if a.Key == "class" && strings.Contains(a.Val, "shell") {
-					// log.Println(n)
-					cmds = append(cmds, n.FirstChild.Data)
-				}
-			}
-		}
 		if n.Type == html.ElementNode && n.Data == "a" {
 			for _, a := range n.Attr {
 				if a.Key == "title" && a.Val == "Zoom in to nested command" {
-					cmds = append(cmds, n.FirstChild.Data)
+					cmds = append(cmds, strings.Join(parseTextInNodeRecursively(n), ""))
 				}
 			}
-		}
-		for c := n.FirstChild; c != nil; c = c.NextSibling {
-			f(c)
-		}
-	}
-	f(n)
-	return cmds
-}
-
-func findExplanationsTable(r io.Reader) *html.Node {
-	doc, err := html.Parse(r)
-	if err != nil {
-		log.Fatal(err)
-	}
-	var returnNode *html.Node
-	var f func(*html.Node)
-	f = func(n *html.Node) {
-		if n.Type == html.ElementNode && n.Data == "table" {
-			for _, a := range n.Attr {
-				if a.Key == "id" && a.Val == "help" {
-					returnNode = n
-					break
-				}
-			}
-		}
-		if returnNode != nil {
-			return
-		}
-		for c := n.FirstChild; c != nil; c = c.NextSibling {
-			f(c)
-		}
-	}
-	f(doc)
-	return returnNode
-}
-
-func parseExplanationDiv(node *html.Node) []Explanation {
-	var f func(*html.Node)
-	cmds := make([]Explanation, 0)
-	f = func(n *html.Node) {
-		if n.Type == html.ElementNode && n.Data == "pre" {
-			var helpRef string
-			var help string
-			for _, a := range n.Attr {
-				if a.Key == "class" && a.Val == "help-box" {
-					help = strings.Join(parseTextInNodeRecursively(n), "")
-				}
-				if a.Key == "id" {
-					helpRef = a.Val
-				}
-			}
-			cmds = append(cmds, Explanation{
-				HelpRef: helpRef,
-				Help:    help,
-			})
 		}
 		for c := n.FirstChild; c != nil; c = c.NextSibling {
 			f(c)

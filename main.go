@@ -1,12 +1,12 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"fmt"
-	"log"
 	"os"
 )
+
+const urlBase = "https://explainshell.com/explain"
 
 const noArgMsg = `
 Try passing an argument. For example: explain "chmod +x run.sh"
@@ -44,12 +44,9 @@ func main() {
 		)
 		os.Exit(0)
 	}
-	urlBase := "https://explainshell.com/explain"
-	b, err := GetPage(context.Background(), urlBase, cmd)
-	if err != nil {
-		log.Println(err)
-		os.Exit(1)
-	}
-	cmds, expls := ParseReponse(b)
-	fmt.Print(Output(cmds, expls))
+
+	fmt.Fprint(
+		flag.CommandLine.Output(),
+		Explain(cmd, urlBase),
+	)
 }
