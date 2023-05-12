@@ -8,6 +8,8 @@ import (
 	"golang.org/x/term"
 )
 
+// themes: CrystalViolet, CyberCube, DimmedMonokai, DoomPeacock, DraculaPlus, Espresso, ForestBlue, Mirage
+
 var cmdStyle = lipgloss.NewStyle().
 	Border(lipgloss.NormalBorder(), false, false, true, false).
 	Padding(1, 0, 0, 0).
