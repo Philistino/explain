@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"flag"
+	"fmt"
 	"strings"
 )
 
@@ -14,9 +16,16 @@ func Explain(cmd string, baseUrl string) string {
 		if err != nil {
 			return
 		}
-		cmds, expls, nestedCmds := ParseReponse(b)
-		builder.WriteString(Output(cmds, expls, url))
-		for _, nested := range nestedCmds {
+		parsed := ParseReponse(b)
+		if parsed.ErrorMsg != "" {
+			fmt.Fprint(
+				flag.CommandLine.Output(),
+				"Error from explainshell.com: ",
+				parsed.ErrorMsg,
+			)
+		}
+		builder.WriteString(Output(parsed.CmdParts, parsed.Expls, url))
+		for _, nested := range parsed.NestedCmds {
 			f(nested)
 		}
 	}

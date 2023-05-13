@@ -16,6 +16,12 @@ var ex1Html []byte
 //go:embed test_fixtures/ex1Nested.html
 var ex1NestedHtml []byte
 
+//go:embed test_fixtures/missing.html
+var missingHtml []byte
+
+//go:embed test_fixtures/parsingError.html
+var parsingError []byte
+
 // func TestMainFn(t *testing.T) {
 // 	os.Args = []string{"", ex1Cmd}
 // 	urlBase = server.URL

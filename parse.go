@@ -24,6 +24,13 @@ type Explanation struct {
 	Help    string
 }
 
+type ParsedResponse struct {
+	CmdParts   []CmdPart
+	Expls      []Explanation
+	NestedCmds []string
+	ErrorMsg   string
+}
+
 func explanations(r io.Reader) []Explanation {
 	tkn := html.NewTokenizer(r)
 	expls := make([]Explanation, 0)
@@ -76,8 +83,8 @@ func explanations(r io.Reader) []Explanation {
 	}
 }
 
-func commands(r io.Reader) ([]CmdPart, []string) {
-	n := findCommandDiv(r)
+func commands(rootNode *html.Node) ([]CmdPart, []string) {
+	n := findCommandDiv(rootNode)
 	if n == nil {
 		return nil, nil
 	}
@@ -86,17 +93,27 @@ func commands(r io.Reader) ([]CmdPart, []string) {
 	return cmdParts, nestedCmds
 }
 
-func ParseReponse(r []byte) ([]CmdPart, []Explanation, []string) {
-	cmds, nestedCmds := commands(bytes.NewReader(r))
-	exps := explanations(bytes.NewReader(r))
-	return cmds, exps, nestedCmds
-}
-
-func findCommandDiv(r io.Reader) *html.Node {
-	doc, err := html.Parse(r)
+func ParseReponse(r []byte) ParsedResponse {
+	rootNode, err := html.Parse(bytes.NewReader(r))
 	if err != nil {
 		log.Fatal(err)
 	}
+	cmds, nestedCmds := commands(rootNode)
+	if len(cmds) == 0 {
+		return ParsedResponse{
+			ErrorMsg: parseErrorMsg(rootNode),
+		}
+	}
+	exps := explanations(bytes.NewReader(r))
+	return ParsedResponse{
+		CmdParts:   cmds,
+		Expls:      exps,
+		NestedCmds: nestedCmds,
+		ErrorMsg:   "",
+	}
+}
+
+func findCommandDiv(rootNode *html.Node) *html.Node {
 	var returnNode *html.Node
 	var f func(*html.Node)
 	f = func(n *html.Node) {
@@ -115,7 +132,7 @@ func findCommandDiv(r io.Reader) *html.Node {
 			f(c)
 		}
 	}
-	f(doc)
+	f(rootNode)
 	return returnNode
 }
 
@@ -188,4 +205,23 @@ func parseExpansionCmds(node *html.Node) []string {
 	}
 	f(node)
 	return cmds
+}
+
+func parseErrorMsg(node *html.Node) string {
+	var f func(*html.Node)
+	var msg string
+	f = func(n *html.Node) {
+		if n.Type == html.ElementNode && n.Data == "div" {
+			for _, a := range n.Attr {
+				if a.Key == "class" && a.Val == "row" {
+					msg = strings.Join(parseTextInNodeRecursively(n), "")
+				}
+			}
+		}
+		for c := n.FirstChild; c != nil; c = c.NextSibling {
+			f(c)
+		}
+	}
+	f(node)
+	return strings.TrimSpace(whiteSpaceRgx.ReplaceAllString(msg, " "))
 }

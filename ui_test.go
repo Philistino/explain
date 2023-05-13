@@ -3,36 +3,55 @@ package main
 import (
 	"fmt"
 	"testing"
+
+	"github.com/charmbracelet/lipgloss"
 )
 
-func TestAnsiCounter(t *testing.T) {
+// testing that colors are returned in in the correct
+// repeating pattern
+func TestColorRepeater(t *testing.T) {
 	t.Parallel()
-	counter := ansiRepeater()
-	// 18 is an arbitrary number greater than 14
-	colors := make([]int, 18)
-	for i := 1; i < 18; i++ {
-		ref := fmt.Sprintf("helpRef-%d", i)
-		color := counter(ref)
-		colors[i] = color
-	}
-	for i := 1; i < 18; i++ {
-		if i <= 14 && i != colors[i] {
-			t.Error()
+	colors := themeRepeater()
+
+	gotColor := make(map[lipgloss.TerminalColor]int)
+
+	// 12 colors in the map
+	for i := 0; i < 22; i++ {
+		color := colors(fmt.Sprint(i))
+		_, ok := gotColor[color]
+		if i < 11 {
+			if ok {
+				t.Error("Color should not be in map: ", i)
+			}
+			gotColor[color] = i
+		} else {
+			if !ok {
+				t.Error("Color should already be in map: ", i)
+			}
+			if gotColor[color] != i-11 {
+				t.Error("Color should match previous round: ", i)
+			}
 		}
-		if i > 14 && colors[i] != i%14 {
-			t.Error()
+	}
+}
+
+func TestColorCounterSameVal(t *testing.T) {
+	t.Parallel()
+	colors := themeRepeater()
+
+	gotColor := make(map[string]lipgloss.TerminalColor)
+
+	for i := 0; i < 5; i++ {
+		helpRef := fmt.Sprint(i)
+		color := colors(helpRef)
+		gotColor[helpRef] = color
+	}
+	for i := 0; i < 5; i++ {
+		helpRef := fmt.Sprint(i)
+		color := colors(helpRef)
+		c := gotColor[helpRef]
+		if c != color {
+			t.Error("Colors should match")
 		}
-	}
-	color := counter("helpRef-2")
-	if color != 2 {
-		t.Error("Color should be 2")
-	}
-	color = counter("helpRef-15")
-	if color != 1 {
-		t.Error("Color should be 1")
-	}
-	color = counter("")
-	if color != 15 {
-		t.Error("Color should be 15")
 	}
 }
