@@ -4,64 +4,64 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
-// TintForestBlue (ForestBlue) is a collection of lipgloss styles.
+// tintForestBlue (ForestBlue) is a collection of lipgloss styles.
 //
-// Reference: https://github.com/lrstanley/bubbletint/blob/master/DEFAULT_TINTS.md#ForestBlue
-type TintForestBlue struct{}
+// Modified from: https://github.com/lrstanley/bubbletint/
+type tintForestBlue struct{}
 
-func (t *TintForestBlue) BrightBlue() lipgloss.TerminalColor {
+func (t *tintForestBlue) BrightBlue() lipgloss.TerminalColor {
 	return lipgloss.Color("#39a7a2")
 }
 
-func (t *TintForestBlue) BrightCyan() lipgloss.TerminalColor {
+func (t *tintForestBlue) BrightCyan() lipgloss.TerminalColor {
 	return lipgloss.Color("#6096bf")
 }
 
-func (t *TintForestBlue) BrightGreen() lipgloss.TerminalColor {
+func (t *tintForestBlue) BrightGreen() lipgloss.TerminalColor {
 	return lipgloss.Color("#6bb48d")
 }
 
-func (t *TintForestBlue) BrightPurple() lipgloss.TerminalColor {
+func (t *tintForestBlue) BrightPurple() lipgloss.TerminalColor {
 	return lipgloss.Color("#7e62b3")
 }
 
-func (t *TintForestBlue) BrightRed() lipgloss.TerminalColor {
+func (t *tintForestBlue) BrightRed() lipgloss.TerminalColor {
 	return lipgloss.Color("#fb3d66")
 }
 
-func (t *TintForestBlue) BrightYellow() lipgloss.TerminalColor {
+func (t *tintForestBlue) BrightYellow() lipgloss.TerminalColor {
 	return lipgloss.Color("#30c85a")
 }
 
-func (t *TintForestBlue) Blue() lipgloss.TerminalColor {
+func (t *tintForestBlue) Blue() lipgloss.TerminalColor {
 	return lipgloss.Color("#8ed0ce")
 }
 
-func (t *TintForestBlue) Cyan() lipgloss.TerminalColor {
+func (t *tintForestBlue) Cyan() lipgloss.TerminalColor {
 	return lipgloss.Color("#31658c")
 }
 
-func (t *TintForestBlue) Green() lipgloss.TerminalColor {
+func (t *tintForestBlue) Green() lipgloss.TerminalColor {
 	return lipgloss.Color("#92d3a2")
 }
 
-func (t *TintForestBlue) Purple() lipgloss.TerminalColor {
+func (t *tintForestBlue) Purple() lipgloss.TerminalColor {
 	return lipgloss.Color("#5e468c")
 }
 
-func (t *TintForestBlue) Red() lipgloss.TerminalColor {
+func (t *tintForestBlue) Red() lipgloss.TerminalColor {
 	return lipgloss.Color("#f8818e")
 }
 
-func (t *TintForestBlue) White() lipgloss.TerminalColor {
+func (t *tintForestBlue) White() lipgloss.TerminalColor {
 	return lipgloss.Color("#e2d8cd")
 }
 
-func (t *TintForestBlue) Yellow() lipgloss.TerminalColor {
+func (t *tintForestBlue) Yellow() lipgloss.TerminalColor {
 	return lipgloss.Color("#1a8e63")
 }
 
-func (t *TintForestBlue) ByNumber(n int) lipgloss.TerminalColor {
+func (t *tintForestBlue) ByNumber(n int) lipgloss.TerminalColor {
 	cMap := map[int]lipgloss.TerminalColor{
 		0:  t.Blue(), // was blue
 		1:  t.Cyan(),

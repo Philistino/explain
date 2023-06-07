@@ -12,7 +12,7 @@ func Explain(cmd string, baseUrl string) string {
 	var err error
 	var f func(string)
 	f = func(c string) {
-		b, url, err := GetPage(context.Background(), baseUrl, c)
+		b, url, err := getPage(context.Background(), baseUrl, c)
 		if err != nil {
 			return
 		}
@@ -24,7 +24,7 @@ func Explain(cmd string, baseUrl string) string {
 				parsed.ErrorMsg,
 			)
 		}
-		builder.WriteString(Output(parsed.CmdParts, parsed.Expls, url))
+		builder.WriteString(output(parsed.CmdParts, parsed.Expls, url))
 		for _, nested := range parsed.NestedCmds {
 			f(nested)
 		}

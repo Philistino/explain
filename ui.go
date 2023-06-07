@@ -7,10 +7,6 @@ import (
 	"golang.org/x/term"
 )
 
-// themes: CrystalViolet, CyberCube, DimmedMonokai,
-// Prefer: DoomPeacock, Mirage
-// DraculaPlus, Espresso, ForestBlue, Mirage
-
 var cmdStyle = lipgloss.NewStyle().
 	Border(lipgloss.NormalBorder(), false, false, true, false).
 	Padding(1, 0, 0, 0).
@@ -27,8 +23,8 @@ var urlStyle = lipgloss.NewStyle().
 	Margin(0, 1)
 
 func themeRepeater() func(string) lipgloss.TerminalColor {
-	theme := TintForestBlue{}
-	refColor := make(map[string]lipgloss.TerminalColor, 20)
+	theme := tintForestBlue{}
+	refColor := make(map[string]lipgloss.TerminalColor, 10) // prob won't be larger than 10
 
 	// setting ref color to white instances when
 	// helpRef == "", meaning no help box will be given
@@ -88,7 +84,7 @@ func buildExps(colorRepeater func(string) lipgloss.TerminalColor, expls []Explan
 	return lipgloss.JoinVertical(lipgloss.Center, bits...)
 }
 
-func Output(cmds []CmdPart, expls []Explanation, url string) string {
+func output(cmds []CmdPart, expls []Explanation, url string) string {
 	colors := themeRepeater()
 	physicalWidth, _, _ := term.GetSize(int(os.Stdout.Fd()))
 	if physicalWidth > 0 {

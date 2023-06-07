@@ -52,7 +52,7 @@ func makeRequest(client *http.Client, req *http.Request) ([]byte, error) {
 	return body, nil
 }
 
-func GetPage(ctx context.Context, urlBase string, cmd string) ([]byte, string, error) {
+func getPage(ctx context.Context, urlBase string, cmd string) ([]byte, string, error) {
 	req, err := buildRequest(ctx, urlBase, cmd)
 	if err != nil {
 		return nil, "", err
